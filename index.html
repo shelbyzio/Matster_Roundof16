@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eFootball Round of 16</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0c0e14; color: #ffffff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .match-card { background: #1a1c24; border-radius: 12px; padding: 16px 20px; border: 1px solid #2a2f3a; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .vs-badge { font-size: 0.7rem; font-weight: 900; color: #0c0e14; background-color: #d4ff00; padding: 4px 10px; border-radius: 6px; box-shadow: 0 0 10px rgba(212, 255, 0, 0.4); letter-spacing: 0.05em; }
+        .team-link { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; text-decoration: none; transition: 0.3s; }
+        .team-link:hover { color: #d4ff00; }
+        .no-link { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; }
+        #trophy-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4ff00, #a3c400); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(212, 255, 0, 0.4); z-index: 9999; font-size: 24px; }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+    <div class="max-w-md mx-auto">
+        <h1 class="text-lg font-bold text-white tracking-widest uppercase mb-8 text-center">ROUND OF 16</h1>
+        <div id="tournament-content" class="space-y-3"></div>
+    </div>
+    <a href="https://shelbyzio.github.io/MasterLeague_Fixtures/" id="trophy-btn">🏆</a>
+
+    <script>
+        const CONTACTS = {
+            "Austria": "https://t.me/lord_voldemort101", "Australia": "https://t.me/KhantX_7272",
+            "Colombia": "https://t.me/iz_szlai", "Croatia": "https://t.me/Saad_waiyan",
+            "Japan": "https://t.me/LHA_goodluck", "France": "https://t.me/Hemaljr10",
+            "New Zealand": "https://t.me/ikc8088", "Mexico": "https://t.me/Ordinary_1211",
+            "Scotland": "https://t.me/kokyaw876", "South Africa": "https://t.me/zingyia",
+            "United States": "https://t.me/ChanAung1178", "Algeria": "https://t.me/kaunghtetko354",
+            "Panama": "", "Czechia": "https://t.me/Mgzay8",
+            "Pending Winner 1": "", "Pending Winner 2": ""
+        };
+
+        // Round of 16 Matches (8 matches total)
+        const matches = [
+            
+            ["Austria", "Australia"],
+            ["Colombia", "Croatia"],
+            ["Japan", "France"],
+            ["New Zealand", "Mexico"],
+            ["Scotland", "South Africa"],
+            ["United States", "Algeria"],
+            ["Panama", "Czechia"],
+            ["TBA", "TBA"]
+        ];
+
+        const container = document.getElementById('tournament-content');
+        
+        matches.forEach((match) => {
+            const matchCard = document.createElement('div');
+            matchCard.className = 'match-card';
+            
+            const createLink = (name) => CONTACTS[name] ? `<a href="${CONTACTS[name]}" target="_blank" class="team-link">${name}</a>` : `<span class="no-link">${name}</span>`;
+            
+            matchCard.innerHTML = `
+                <div class="flex-1 text-left truncate pr-2">${createLink(match[0])}</div>
+                <div class="vs-badge">VS</div>
+                <div class="flex-1 text-right truncate pl-2">${createLink(match[1])}</div>
+            `;
+            container.appendChild(matchCard);
+        });
+    </script>
+</body>
+</html>
