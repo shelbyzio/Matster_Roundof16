@@ -3,27 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eFootball Quarter Finals</title>
+    <title>eFootball Tournament</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #0c0e14; color: #ffffff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .match-card { background: #1a1c24; border-radius: 12px; padding: 16px 20px; border: 1px solid #2a2f3a; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .vs-badge { font-size: 0.7rem; font-weight: 900; color: #0c0e14; background-color: #d4ff00; padding: 4px 10px; border-radius: 6px; box-shadow: 0 0 10px rgba(212, 255, 0, 0.4); letter-spacing: 0.05em; }
+        .score-badge { font-size: 0.85rem; font-weight: 800; color: #d4ff00; }
         .team-link { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; text-decoration: none; transition: 0.3s; }
         .team-link:hover { color: #d4ff00; }
-        .no-link { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; }
-        #trophy-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4ff00, #a3c400); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(212, 255, 0, 0.4); z-index: 9999; font-size: 24px; }
+        .nav-btn { background: #2a2f3a; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
+        .active-nav { background: #d4ff00; color: #0c0e14; }
     </style>
 </head>
 <body class="p-4 md:p-6">
     <div class="max-w-md mx-auto">
-        <h1 class="text-lg font-bold text-white tracking-widest uppercase mb-8 text-center">QUARTER FINALS</h1>
+        <!-- Main Header -->
+        <h1 class="text-xl font-black text-white tracking-widest uppercase mb-6 text-center">Master League | World Cup</h1>
+        
+        <!-- Navigation Bar -->
+        <div class="flex justify-center gap-2 mb-8" id="nav-bar">
+            <button class="nav-btn active-nav" onclick="showStage('quarter', this)">Quarter</button>
+            <button class="nav-btn" onclick="showStage('semi', this)">Semi</button>
+            <button class="nav-btn" onclick="showStage('final', this)">Final</button>
+        </div>
+        
+        <h2 id="stage-title" class="text-sm font-bold text-gray-400 tracking-widest uppercase mb-4 text-center">QUARTER FINALS</h2>
         <div id="tournament-content" class="space-y-3"></div>
     </div>
-    <a href="https://shelbyzio.github.io/Master_Knockout/" id="trophy-btn">🏆</a>
 
     <script>
-        // သက်ဆိုင်ရာ Telegram Links များ
         const CONTACTS = {
             "Austria": "https://t.me/lord_voldemort101",
             "Croatia": "https://t.me/Saad_waiyan",
@@ -31,33 +39,53 @@
             "New Zealand": "https://t.me/ikc8088",
             "Scotland": "https://t.me/kokyaw876",
             "United States": "https://t.me/ChanAung1178",
-            "Panama": "", 
-            "Netherlands": ""
+            "Panama": "",
+            "Turkey": ""
         };
 
-        // Quarter Final ပွဲစဉ်များ (၄ ပွဲ)
-        const matches = [
-            ["Austria", "Croatia"],
-            ["Japan", "New Zealand"],
-            ["Scotland", "United States"],
-            ["Panama", "Turkey"]
-        ];
+        const stages = {
+            quarter: [
+                { team1: "Austria", score1: 4, team2: "Croatia", score2: 7 },
+                { team1: "Japan", score1: 2, team2: "New Zealand", score2: 14 },
+                { team1: "Scotland", score1: 6, team2: "United States", score2: 7 },
+                { team1: "Panama", score1: 10, team2: "Turkey", score2: 6 }
+            ],
+            semi: [
+                { team1: "Croatia", score1: "", team2: "New Zealand", score2: "" },
+                { team1: "United States", score1: "", team2: "Panama", score2: "" }
+            ],
+            final: [
+                { team1: "TBA", score1: "", team2: "TBA", score2: "" }
+            ]
+        };
 
-        const container = document.getElementById('tournament-content');
+        function showStage(stage, btn) {
+            const container = document.getElementById('tournament-content');
+            const title = document.getElementById('stage-title');
+            container.innerHTML = '';
+            
+            const titles = { quarter: 'QUARTER FINALS', semi: 'SEMI FINALS', final: 'GRAND FINAL' };
+            title.innerText = titles[stage];
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-nav'));
+            btn.classList.add('active-nav');
+
+            stages[stage].forEach((match) => {
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                const createLink = (name) => CONTACTS[name] ? `<a href="${CONTACTS[name]}" target="_blank" class="team-link">${name}</a>` : `<span class="team-link">${name}</span>`;
+                
+                card.innerHTML = `
+                    <div class="w-1/3 text-center truncate">${createLink(match.team1)}</div>
+                    <div class="score-badge w-1/3 text-center">${match.score1} - ${match.score2}</div>
+                    <div class="w-1/3 text-center truncate">${createLink(match.team2)}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
         
-        matches.forEach((match) => {
-            const matchCard = document.createElement('div');
-            matchCard.className = 'match-card';
-            
-            const createLink = (name) => CONTACTS[name] ? `<a href="${CONTACTS[name]}" target="_blank" class="team-link">${name}</a>` : `<span class="no-link">${name}</span>`;
-            
-            matchCard.innerHTML = `
-                <div class="flex-1 text-left truncate pr-2">${createLink(match[0])}</div>
-                <div class="vs-badge">VS</div>
-                <div class="flex-1 text-right truncate pl-2">${createLink(match[1])}</div>
-            `;
-            container.appendChild(matchCard);
-        });
+        // Initial load
+        showStage('quarter', document.querySelector('.nav-btn'));
     </script>
 </body>
 </html>
